@@ -1,3 +1,3 @@
-"# phaser-ts-gulp" 
+"# phaser-flappy" 
 
-Esqueleto para trabalhar com Phaser usando Typescript e Gulp
+Teste de um Jogo de Flappy Bird feito em Phaser
