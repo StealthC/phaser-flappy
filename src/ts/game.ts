@@ -9,6 +9,7 @@ export class FlappyGame extends Phaser.State {
   clicked: boolean;
   pipeGroup: Phaser.Group;
   isGameOver: boolean = false;
+  pad1: Phaser.SinglePad;
 
   preload() {
     this.game.load.image('logo', 'assets/phaser2.png');
@@ -43,17 +44,21 @@ export class FlappyGame extends Phaser.State {
     (<Phaser.Physics.Arcade.Body>this.ground.body).allowGravity = false;
     (<Phaser.Physics.Arcade.Body>this.ground.body).immovable = true;
 
-    this.game.input.onDown.add(
-      () => {
-        if (this.isGameOver) {
-          this.reset();
-        } else {
-          this.clicked = true;
-        }
-      }
-    );
+    this.game.input.onDown.add(this.onInput, this);
+
+    this.game.input.gamepad.start();
+    this.pad1 = this.game.input.gamepad.pad1;
 
   }
+
+  onInput() {
+    if (this.isGameOver) {
+      this.reset();
+    } else {
+      this.clicked = true;
+    }
+  }
+
   gameOver() {
     this.bird.animations.stop();
     this.isGameOver = true;
@@ -68,6 +73,9 @@ export class FlappyGame extends Phaser.State {
     this.bird.animations.play('fly');
   }
   update() {
+    if (this.pad1.justPressed(Phaser.Gamepad.XBOX360_A)) {
+      this.onInput();
+    }
     this.game.physics.arcade.collide(this.bird, this.ground, () => {
       if (!this.isGameOver) {
         this.gameOver();

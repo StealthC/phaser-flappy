@@ -1,6 +1,7 @@
 export class TitleState extends Phaser.State {
   ground: Phaser.TileSprite;
-  
+  pad1: Phaser.SinglePad;
+
   preload() {
     this.game.load.image('background', 'assets/background.png');
     this.game.load.spritesheet('bird', 'assets/bird.png', 92, 64);
@@ -29,8 +30,15 @@ export class TitleState extends Phaser.State {
 
     this.ground = this.game.add.tileSprite(0, this.game.world.height - 64, 400, 64, 'ground');
     this.ground.tileScale.set(0.5, 0.5);
+
+    this.game.input.gamepad.start();
+    this.pad1 = this.game.input.gamepad.pad1;
+    
   }
   update() {
     this.ground.tilePosition.x -=4;
+    if (this.pad1.justPressed(Phaser.Gamepad.XBOX360_A)) {
+      this.game.state.start('game');
+    }
   }
 }
