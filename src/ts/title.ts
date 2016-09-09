@@ -7,7 +7,6 @@ export class TitleState extends Phaser.State {
     this.game.load.spritesheet('bird', 'assets/bird.png', 92, 64);
     this.game.load.image('ground', 'assets/ground.png');
   }
-  
 
   create() {
     let back = this.game.add.sprite(0, 0, 'background');
@@ -16,12 +15,12 @@ export class TitleState extends Phaser.State {
 
 
     let bird = this.game.add.sprite(this.game.world.centerX, this.game.world.centerY, 'bird');
-    bird.animations.add('fly', [0,1,2,1], 10, true);
+    bird.animations.add('fly', [0, 1, 2, 1], 10, true);
     bird.anchor.set(0.5, 0.5);
     bird.animations.play('fly');
 
-    let style = { font: "bold 32px Arial", fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle" };
-    let text = this.game.add.text(10,10, "Flappy Bird",style);
+    let style = { font: 'bold 32px Arial', fill: '#fff', boundsAlignH: 'center', boundsAlignV: 'middle' };
+    let text = this.game.add.text(10, 10, 'Flappy Bird', style);
     text.setTextBounds(0, 0, 400, 400);
     this.game.input.onTap.add(() => {
       this.game.state.start('game');
@@ -33,10 +32,10 @@ export class TitleState extends Phaser.State {
 
     this.game.input.gamepad.start();
     this.pad1 = this.game.input.gamepad.pad1;
-    
+
   }
   update() {
-    this.ground.tilePosition.x -=4;
+    this.ground.tilePosition.x -= 4;
     if (this.pad1.justPressed(Phaser.Gamepad.XBOX360_A)) {
       this.game.state.start('game');
     }

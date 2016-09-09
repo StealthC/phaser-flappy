@@ -18,7 +18,7 @@ export class FlappyGame extends Phaser.State {
     this.game.load.image('pipe', 'assets/pipe.png');
     this.game.load.spritesheet('bird', 'assets/bird.png', 92, 64);
   }
-  
+
   create() {
     this.game.physics.arcade.gravity.y = 800;
 
@@ -32,7 +32,7 @@ export class FlappyGame extends Phaser.State {
     this.pipeGroup.add(pipe);
 
     this.bird = this.game.add.sprite(this.game.world.centerX, this.game.world.centerY, 'bird');
-    this.bird.animations.add('fly', [0,1,2,1], 10, true);
+    this.bird.animations.add('fly', [0, 1, 2, 1], 10, true);
     this.bird.scale.set(0.5, 0.5);
     this.bird.animations.play('fly');
     this.bird.anchor.setTo(0.5, 0.5);
@@ -82,8 +82,8 @@ export class FlappyGame extends Phaser.State {
       }
     });
 
-    this.bird.rotation = Phaser.Math.angleBetween(0, 0, this.speed, this.bird.body.velocity.y / 500);;
-    
+    this.bird.rotation = Phaser.Math.angleBetween(0, 0, this.speed, this.bird.body.velocity.y / 500);
+
     if (!this.isGameOver) {
       this.ground.tilePosition.x -= this.speed * 2;
       if (this.clicked) {
@@ -100,14 +100,14 @@ export class FlappyGame extends Phaser.State {
         this.game.physics.arcade.collide(this.bird, pipe, () => {
           this.gameOver();
         });
-        
+
         if (pipe.x < 180 && this.pipeGroup.length === 1) {
           let nPipe = new Pipe(this.game, 400);
           this.pipeGroup.add(nPipe);
         }
       });
     } else {
-      //Game Over
+      // Game Over
     }
   }
 }
