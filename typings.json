@@ -1,5 +1,5 @@
 {
-  "name": "ashleyvania",
+  "name": "phaser",
   "dependencies": {},
   "globalDependencies": {
     "phaser": "github:photonstorm/phaser/typescript/typings.json"

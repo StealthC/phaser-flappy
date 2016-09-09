@@ -8,6 +8,12 @@ let concat = require('gulp-concat');
 let open = require('gulp-open');
 let watch = require('gulp-watch');
 let st = require('st');
+let uglify = require('gulp-uglify');
+
+let vendor = [
+  {path: 'node_modules/phaser/build', file: 'phaser.min.js'},
+  {path: 'node_modules/systemjs/dist', file: 'system.js'}
+]
 
 
 gulp.task('default', function(callback) {
@@ -16,6 +22,14 @@ gulp.task('default', function(callback) {
               ['ts-watch-build', 'other-watch-build'],
               'connect-build',
               'open-build',
+              callback);
+});
+
+gulp.task('dist', function(callback) {
+    runSequence('clean-build',
+              ['ts-build', 'clean-dist'],
+              'files-dist',
+              ['js-dist', 'vendor-dist'],
               callback);
 });
 
@@ -56,9 +70,9 @@ gulp.task('connect-build', function () {
     port: 8080,
     livereload: true,
     middleware: function (connect, opt) {
-      return [
-        st({ path: 'node_modules', url: '/node_modules' })
-      ];
+      return vendor.map(function(v) {
+        return st({ path: v.path, url: '/vendor', passthrough: true })
+      });
     }
   });
 });
@@ -66,4 +80,37 @@ gulp.task('connect-build', function () {
 gulp.task('open-build', function(){
   gulp.src(__filename)
   .pipe(open({uri: 'http://127.0.0.1:8080'}));
+});
+
+gulp.task('clean-dist', function() {
+    return del(['dist']);
+});
+
+gulp.task('files-dist', function() {
+  return gulp.src(['src/**', '!src/ts', '!src/ts/**'])
+    .pipe(gulp.dest('dist'));
+});
+
+gulp.task('js-dist', function() {
+  return gulp.src('build/**/*.js')
+    .pipe(uglify({mangle: true}))
+    .pipe(gulp.dest('dist'));
+});
+
+gulp.task('vendor-dist', function() {
+  return gulp.src(vendor.map(function(v) {
+    return v.path + '/' + v.file;
+  }))
+    .pipe(gulp.dest('dist/vendor'));
+});
+
+gulp.task('connect-dist', function () {
+  connect.server({
+    name: 'Phaser',
+    root: ['dist'],
+    port: 7070,
+    livereload: false
+  });
+  gulp.src(__filename)
+  .pipe(open({uri: 'http://127.0.0.1:7070'}));
 });

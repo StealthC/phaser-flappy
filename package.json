@@ -1,5 +1,5 @@
 {
-  "name": "phaser-flappy",
+  "name": "phaser-ts-gulp",
   "version": "1.0.0",
   "description": "",
   "scripts": {
@@ -17,6 +17,7 @@
     "gulp-open": "^2.0.0",
     "gulp-sourcemaps": "^1.6.0",
     "gulp-typescript": "^2.13.6",
+    "gulp-uglify": "^2.0.0",
     "gulp-watch": "^4.3.9",
     "run-sequence": "^1.2.2",
     "st": "^1.2.0",
