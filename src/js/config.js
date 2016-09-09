@@ -1,7 +1,7 @@
 SystemJS.config({
-  baseURL: '/js',
+  baseURL: 'js',
 });
 System.defaultJSExtensions = true;
-window.onload = () => {
+window.onload = function() {
   SystemJS.import('index.js');
 };
